@@ -1,0 +1,53 @@
+%Bismillahi-r-Rahmani-r-Rahim
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{csvsimple}
+
+\title{Experiments with Learning Cones}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+
+
+\section{Results}
+
+A comparison of accuracy with cone classifier versus linear SVM:
+\begin{center}
+\csvautotabular{accuracy.csv}
+\end{center}
+
+Training times for each classifier:
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+Dataset & SVM Time & Cone Time\\
+\hline
+colon-cancer & 0.267 $\pm$ 0.002 & 22.677 $\pm$ 0.728\\
+iris & 0.085 $\pm$ 0.001 & 129.210 $\pm$ 2.384\\
+mnist-original & 2716.761 $\pm$ 20.363 & 29181.849 $\pm$ 9.064\\
+sensit-vehicle-combined & 1193.599 $\pm$ 13.237 & 5157.205 $\pm$ 10.313\\
+sonar & 0.211 $\pm$ 0.009 & 105.201 $\pm$ 1.638\\
+\hline
+\end{tabular}
+\end{center}
+
+Toy data
+\begin{center}
+\csvautotabular{toy.csv}
+\end{center}
+
+\newpage
+How performance varies with number of dimensions in the
+cross-validation analysis:
+
+\begin{center}
+\includegraphics[width=\linewidth]{dimensions.pdf}
+\end{center}
+
+\end{document}
