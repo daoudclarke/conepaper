@@ -4,6 +4,15 @@
 \usepackage{graphicx}
 \usepackage{csvsimple}
 
+\usepackage{amsthm}
+\usepackage{amssymb}
+
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{example}{Example}
+
+\newcommand{\R}{\mathbb{R}}
+
 \title{Experiments with Learning Cones}
 \date{\today}
 
@@ -13,9 +22,142 @@
 
 \section{Introduction}
 
+Distributional approaches to representing meaning in natural language
+are an established and important component in the computational
+linguist's toolbox. In these approaches, words are typically
+represented as vectors, however we still lack a comprehensive theory
+of natural language meaning that is vector based.
+
+Part of the problem is arguably that we don't know how to relate
+distributional semantics to logical semantics. Recent work has looked
+at how vector based representations of meaning can be composed in a
+similar way to how fragments of logic are composed in Montague
+semantics.
+
+However there is another problem that has until now not received a lot
+of attention. Researchers in distributional semantics typically focus
+on similarity, whilst logical semantics places an emphasis on
+equivalence, contradiction and entailment. Whilst similarity is
+sufficient for many tasks in natural language processing, tasks such
+as textual entailment recognition, summarisation and ontology learning
+deal with entailment. Similarity measures are not sufficient to
+represent entailment: they are generally symmetric, whilst entailment
+is antisymmetric and transitive.
+
+In this paper we examine the proposition of \cite{Clarke:07} that
+entailment can be described by a partial ordering on the vector
+space. Whilst many vector spaces can be considered to be partially
+ordered vector spaces merely by the existence of a distinguished
+basis, in this paper we investigate the possibility of learning a new
+partial ordering directly from data. We describe an algorithm which
+does this and demonstrate its effectiveness on some simple datasets.
+
+We also describe how this technique could potentially be applied to
+three different problems: recognising textual entailment, ontology
+learning, and compositionality in vector space semantics. As this is
+preliminary work, we leave the implementation of these proposals to
+further work.
+
+\section{Background}
+
+\subsection{Entailment}
+
+There are at least three notions of entailment described in the
+literature. The oldest and best defined is logical entailment, which
+is (in general) a transitive and antisymmetric relation (i.e.~a
+preorder) on a formal language (that of the logic in question).
+
+Lexical entailment is that described by taxonomies, such as the IS-A
+or hypernymy relation in WordNet, for example, a \emph{cat} is an
+\emph{animal}. Like logical entailment, this relation is normally
+assumed to be a preorder, and often it is also assumed to be a partial
+order.
+
+Finally, textual entailment is a recent innovation intended to
+generalise several tasks in natural language processing, including
+document summarisation, information retrieval and machine
+translation. A sentence $T$ (the ``text'') is said to entail a
+sentence $H$ (the ``hypothesis'') if a reader will generally infer
+that $H$ is true given that $T$ is true. This is arguably a fuzzy
+relation since different readers will often disagree.
+
+\subsection{Distributional Entailment}
+
+\cite{Weeds} proposed a notion of distributional generality, that
+words with more general meanings will tend to occur in a wider range
+of contexts. \cite{Clarke:07} formalised this idea using a partially
+ordered vector space.
+
+\begin{definition}[Partially ordered vector space]
+  A partially ordered vector space $V$ is a real vector space together
+  with a partial ordering $\le$ such that:
+  \vspace{0.1cm}\\
+  \indent if $x \le y$ then $x + z \le y + z$\\
+  \indent if $x \le y$ then $\alpha x \le \alpha y$
+  \vspace{0.1cm}\\
+  for all $x,y,z \in V$, and for all $\alpha \ge 0$. Such a partial
+  ordering is called a \textbf{vector space order} on $V$. An element
+  $u$ of $V$ satisfying $u \ge 0$ is called a \textbf{positive
+    element}; the set of all positive elements of $V$ is denoted
+  $V^+$. If $\le$ defines a lattice on $V$ then the space is called a
+  \textbf{vector lattice} or \textbf{Riesz space}.
+\end{definition}
+
+\begin{example}[Lattice operations on $\R^n$]
+  \label{example:finite}
+  A vector lattice captures many properties that are inherent in real
+  vector spaces when there is a \emph{distinguished basis}. In $\R^n$,
+  given a specific basis, we can write two vectors $u$ and $v$ as
+  sequences of numbers: $u = (u_1,u_2,\ldots u_n)$ and $v =
+  (v_1,v_2,\ldots v_n)$. This allows us to define the lattice
+  operations of meet $\land$ and join $\lor$ as
+\begin{eqnarray}
+u\land v &=& (\min(u_1,v_1),\min(u_2,v_2),\ldots \min(u_n,v_n))\\
+u\lor v &=& (\max(u_1,v_1),\max(u_2,v_2),\ldots \max(u_n,v_n))
+\end{eqnarray}
+These are the component-wise minimum and maximum, respectively. The partial
+ordering is then given by $u \le v$ if and only if $u \land v = u$, or
+equivalently $u_i \le v_i$ for all $i$.
+\end{example}
+
+\section{Motivation}
+
+
+
+\section{Learning Lattice Orderings}
+
+In this section we show how lattice orderings on finite dimensional
+spaces can be described as matrices, and give our algorithm for
+learning such matrices from data.
+
+\begin{proposition}[Partial Orderings Defined by Linear Operators]
+  Let $A$ be a vector space and $B$ a partially ordered vector space,
+  and let $M$ be a linear function from $A$ to $B$. Define an ordering
+  on $A$ by $u\le v$ if and only if $Mu \le Mv$. Then $A$ is a
+  partially ordered vector space under this ordering.
+\end{proposition}
+
+\begin{proof}
+If $u \le v$ then $M(u + z) = Mu + Mz \le Mv + Mz = M(v +
+z)$ so $u + z \le v + z$. Similarly, $M(\alpha u) = \alpha Mu
+\le\alpha Mv = M(\alpha v)$ so $\alpha u \le \alpha v$ for
+$\alpha \ge 0$.
+\end{proof}
+
+In particular, if we take $A = \R^n$ and $B = \R^m$ then $M$ is an $n$
+by $m$ matrix. If we take the ordering for $A$ from Example
+\ref{example:finite} then $u\le v$ if and only if $(Mu)_i \le (Mv)_i$
+for all $i$.
+
+\section{Experiments}
+
+\begin{center}
+\csvautotabular{datasets.csv}
+\end{center}
 
 
 \section{Results}
+
 
 A comparison of accuracy with cone classifier versus linear SVM:
 \begin{center}
