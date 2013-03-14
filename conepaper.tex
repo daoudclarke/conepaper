@@ -49,7 +49,7 @@ deal with entailment. Similarity measures are not sufficient to
 represent entailment: they are generally symmetric, whilst entailment
 is antisymmetric and transitive.
 
-In this paper we examine the proposition of \cite{Clarke:07} that
+In this paper we examine the proposition of \newcite{Clarke:07} that
 entailment can be described by a partial ordering on the vector
 space. Whilst many vector spaces can be considered to be partially
 ordered vector spaces merely by the existence of a distinguished
@@ -88,9 +88,9 @@ relation since different readers will often disagree.
 
 \subsection{Distributional Entailment}
 
-\cite{Weeds} proposed a notion of distributional generality, that
+\newcite{Weeds:04} proposed a notion of distributional generality, that
 words with more general meanings will tend to occur in a wider range
-of contexts. \cite{Clarke:07} formalised this idea using a partially
+of contexts. \newcite{Clarke:07} formalised this idea using a partially
 ordered vector space.
 
 \begin{definition}[Partially ordered vector space]
@@ -116,10 +116,10 @@ ordered vector space.
   sequences of numbers: $u = (u_1,u_2,\ldots u_n)$ and $v =
   (v_1,v_2,\ldots v_n)$. This allows us to define the lattice
   operations of meet $\land$ and join $\lor$ as
-\begin{eqnarray}
+\begin{eqnarray*}
 u\land v &=& (\min(u_1,v_1),\min(u_2,v_2),\ldots \min(u_n,v_n))\\
 u\lor v &=& (\max(u_1,v_1),\max(u_2,v_2),\ldots \max(u_n,v_n))
-\end{eqnarray}
+\end{eqnarray*}
 These are the component-wise minimum and maximum, respectively. The partial
 ordering is then given by $u \le v$ if and only if $u \land v = u$, or
 equivalently $u_i \le v_i$ for all $i$.
@@ -213,5 +213,9 @@ sonar & 0.211 $\pm$ 0.009 & 105.201 $\pm$ 1.638\\
   parameter search done using a second cross-validation done on each
   fold.}
 \end{figure}
+
+\bibliographystyle{acl}
+\bibliography{contexts}
+
 
 \end{document}
