@@ -1,5 +1,10 @@
 %Bismillahi-r-Rahmani-r-Rahim
 \documentclass{article}
+\usepackage{acl2013}
+\usepackage{times}
+\usepackage{url}
+\usepackage{latexsym}
+
 
 \usepackage{graphicx}
 \usepackage{csvsimple}
@@ -151,20 +156,37 @@ for all $i$.
 
 \section{Experiments}
 
+\begin{table}
 \begin{center}
 \csvautotabular{datasets.csv}
 \end{center}
-
+\caption{Datasets from mldata.org used in our experiments, with number
+  of instances, features and classes in each dataset.}
+\end{table}
 
 \section{Results}
 
+\begin{table*}
+\begin{center}
+\csvautotabular{toy.csv}
+\end{center}
+\caption{Accuracy results on toy data for each classifier. The first
+  number in the dataset name indicates the dimensionality of the data,
+  and the second number, the number of vectors generating the cone used
+  to construct the data.}
+\end{table*}
 
-A comparison of accuracy with cone classifier versus linear SVM:
+\begin{table*}
 \begin{center}
 \csvautotabular{accuracy.csv}
 \end{center}
+\caption{Accuracy of each classifier on the mldata.org datasets, with
+  estimates of error in the mean derived from three-fold
+  cross-validation.}
+\end{table*}
 
-Training times for each classifier:
+
+\begin{table*}
 \begin{center}
 \begin{tabular}{|l|l|l|}
 \hline
@@ -178,18 +200,18 @@ sonar & 0.211 $\pm$ 0.009 & 105.201 $\pm$ 1.638\\
 \hline
 \end{tabular}
 \end{center}
+\caption{Training times for each classifier.}
+\end{table*}
 
-Toy data
-\begin{center}
-\csvautotabular{toy.csv}
-\end{center}
 
-\newpage
-How performance varies with number of dimensions in the
-cross-validation analysis:
-
+\begin{figure}
 \begin{center}
 \includegraphics[width=\linewidth]{dimensions.pdf}
 \end{center}
+\caption{Accuracy of each dataset with the cone classifier (y axis) as
+  the dimensionality (x axis) varies. This data is derived from the
+  parameter search done using a second cross-validation done on each
+  fold.}
+\end{figure}
 
 \end{document}

@@ -1,0 +1,6 @@
+Dataset,Instances,Feat.,Cls.
+colon-cancer,62,2000,2
+iris,150,4,3
+mnist-original,70000,784,10
+sensit-vehicle-combined,98528,100,3
+sonar,208,60,2
