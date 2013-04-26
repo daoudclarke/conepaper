@@ -5,6 +5,8 @@
 \usepackage{url}
 \usepackage{latexsym}
 
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
 \usepackage{graphicx}
 \usepackage{csvsimple}
@@ -154,7 +156,83 @@ by $m$ matrix. If we take the ordering for $A$ from Example
 \ref{example:finite} then $u\le v$ if and only if $(Mu)_i \le (Mv)_i$
 for all $i$.
 
+\subsection{Learning Algorithm}
+
+In this section we describe our learning algorithm.
+
+\begin{algorithm}
+\caption{Cone Learning by Gradient Descent}\label{algorithm:cone}
+\begin{algorithmic}
+  \Procedure{LearnCone}{$V, \mathbf{c}, d$}
+  \State $M \gets$ \Call{RandMatrix}{d}
+  \State $\alpha \gets \alpha_0$
+  \Loop
+    \State $M' \gets$ \Call{Gradient}{$V, \mathbf{c}, M$}
+    \Loop
+      \State $N \gets M - \alpha M'$
+      \State $N' \gets$ \Call{Gradient}{$V, \mathbf{c}, N$}
+      \If{$\|N'\|_1 < \|M'\|_1$}
+        \State \textbf{break}
+      \EndIf
+      \State $\alpha \gets \alpha/2$
+    \EndLoop
+    \State $M \gets N$
+    \State $\alpha \gets 1.2\alpha$
+  \EndLoop
+  \EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
 \section{Experiments}
+
+\subsection{Toy Data}
+
+\subsection{MlData.org Datasets}
+
+\subsection{Hypernymy Detection}
+
+We built a dataset using distributional information of nouns together
+with taxonomy information from WordNet.
+\begin{enumerate}
+\item We identified ``pseudo-monosemous'' nouns in WordNet by
+  selecting those whose most most frequent sense accounted for more
+  than 80\% of occurrences (we used the frequency information included
+  with WordNet), giving us 2,351 nouns.
+\item We removed the term \emph{entity} as this is indirectly related
+  to every noun, and we didn't want our dataset to be biased by this
+  edge case.
+\item We identified the set $H$ of all pairs of terms $(t_1, t_2)$
+  such that $t_2$ is an indirect hypernym of $t_1$, using the most
+  frequent sense of each term. This gave us 4,794 pairs; the first ten
+  are shown in Table \ref{table:pairs}.
+\item We chose the same number of pairs at random from the remainder
+  of possible pairs to form non-positive examples
+\item For each term, we built a vector using dependency relations,
+  extracted using (parser?) from (corpus?).
+\item We constructed the dataset using the vector $u_2 - u_1$ where
+  $u_i$ is the vector obtained for term $t_i$, and where the class was
+  positive if the indirect hypernymy relation holds for the pair.
+\item Reduce the dimensionality using sparse random projections.
+\end{enumerate}
+
+\begin{table}
+\begin{center}
+\begin{minipage}{3cm}
+abandon trait\\
+abortion event\\
+abscess knowledge\\
+absurdity nonsense\\
+abyss object\\
+abyss location\\
+academy institution\\
+academy school\\
+academy group\\
+academy grouping\\
+\end{minipage}
+\end{center}
+\caption{The first ten entailment pairs obtained from WordNet.}
+\label{table:pairs}
+\end{table}
 
 \begin{table}
 \begin{center}
@@ -168,51 +246,69 @@ for all $i$.
 
 \begin{table*}
 \begin{center}
-\csvautotabular{toy.csv}
+\csvautotabular{results-all.csv}
 \end{center}
-\caption{Accuracy results on toy data for each classifier. The first
-  number in the dataset name indicates the dimensionality of the data,
-  and the second number, the number of vectors generating the cone used
-  to construct the data.}
-\end{table*}
-
-\begin{table*}
-\begin{center}
-\csvautotabular{accuracy.csv}
-\end{center}
-\caption{Accuracy of each classifier on the mldata.org datasets, with
-  estimates of error in the mean derived from three-fold
-  cross-validation.}
 \end{table*}
 
 
-\begin{table*}
-\begin{center}
-\begin{tabular}{|l|l|l|}
-\hline
-Dataset & SVM Time & Cone Time\\
-\hline
-colon-cancer & 0.267 $\pm$ 0.002 & 22.677 $\pm$ 0.728\\
-iris & 0.085 $\pm$ 0.001 & 129.210 $\pm$ 2.384\\
-mnist-original & 2716.761 $\pm$ 20.363 & 29181.849 $\pm$ 9.064\\
-sensit-vehicle-combined & 1193.599 $\pm$ 13.237 & 5157.205 $\pm$ 10.313\\
-sonar & 0.211 $\pm$ 0.009 & 105.201 $\pm$ 1.638\\
-\hline
-\end{tabular}
-\end{center}
-\caption{Training times for each classifier.}
-\end{table*}
+% \begin{table*}
+% \begin{center}
+% \csvautotabular{toy.csv}
+% \end{center}
+% \caption{Accuracy results on toy data for each classifier. The first
+%   number in the dataset name indicates the dimensionality of the data,
+%   and the second the number of vectors generating the cone used
+%   to construct the data.}
+% \end{table*}
+
+% \begin{table*}
+% \begin{center}
+% \csvautotabular{accuracy.csv}
+% \end{center}
+% \caption{Accuracy of each classifier on the mldata.org datasets, with
+%   estimates of error in the mean derived from three-fold
+%   cross-validation.}
+% \end{table*}
 
 
-\begin{figure}
-\begin{center}
-\includegraphics[width=\linewidth]{dimensions.pdf}
-\end{center}
-\caption{Accuracy of each dataset with the cone classifier (y axis) as
-  the dimensionality (x axis) varies. This data is derived from the
-  parameter search done using a second cross-validation done on each
-  fold.}
-\end{figure}
+% \begin{table*}
+% \begin{center}
+% \begin{tabular}{|l|l|l|}
+% \hline
+% Dataset & SVM Time & Cone Time\\
+% \hline
+% colon-cancer & 0.267 $\pm$ 0.002 & 22.677 $\pm$ 0.728\\
+% iris & 0.085 $\pm$ 0.001 & 129.210 $\pm$ 2.384\\
+% mnist-original & 2716.761 $\pm$ 20.363 & 29181.849 $\pm$ 9.064\\
+% sensit-vehicle-combined & 1193.599 $\pm$ 13.237 & 5157.205 $\pm$ 10.313\\
+% sonar & 0.211 $\pm$ 0.009 & 105.201 $\pm$ 1.638\\
+% \hline
+% \end{tabular}
+% \end{center}
+% \caption{Training times for each classifier.}
+% \end{table*}
+
+
+% \begin{figure}
+% \begin{center}
+% \includegraphics[width=\linewidth]{dimensions.pdf}
+% \end{center}
+% \caption{Accuracy of each dataset with the cone classifier (y axis) as
+%   the dimensionality (x axis) varies. This data is derived from the
+%   parameter search done using a second cross-validation done on each
+%   fold.}
+% \end{figure}
+
+% \begin{table*}
+% \begin{center}
+% \csvautotabular{wn-greedy.csv}
+% \end{center}
+% \caption{Accuracy on datasets generated from distributional
+%   information and WordNet taxonomy. The last number indicates the
+%   number of dimensions after reduction with random projections.}
+% \end{table*}
+
+
 
 \bibliographystyle{acl}
 \bibliography{contexts}

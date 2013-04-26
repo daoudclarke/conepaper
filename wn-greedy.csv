@@ -1,0 +1,3 @@
+Dataset,Stratified,SVM,Decision Tree,Cone (Gradient),Cone (Greedy)
+wn-noun-dependencies-10,0.491 $\pm$ 0.006,0.466 $\pm$ 0.043,0.684 $\pm$ 0.004,0.530 $\pm$ 0.005,0.633 $\pm$ 0.004
+wn-noun-dependencies-random-10,0.494 $\pm$ 0.003,0.589 $\pm$ 0.003,0.579 $\pm$ 0.005,n/a,n/a
