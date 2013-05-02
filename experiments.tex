@@ -1,0 +1,58 @@
+\section{Experiments}
+
+\subsection{Toy Data}
+
+\subsection{MlData.org Datasets}
+
+\subsection{Hypernymy Detection}
+
+We built a dataset using distributional information of nouns together
+with taxonomy information from WordNet.
+\begin{enumerate}
+\item We identified ``pseudo-monosemous'' nouns in WordNet by
+  selecting those whose most most frequent sense accounted for more
+  than 80\% of occurrences (we used the frequency information included
+  with WordNet), giving us 2,351 nouns.
+\item We removed the term \emph{entity} as this is indirectly related
+  to every noun, and we didn't want our dataset to be biased by this
+  edge case.
+\item We identified the set $H$ of all pairs of terms $(t_1, t_2)$
+  such that $t_2$ is an indirect hypernym of $t_1$, using the most
+  frequent sense of each term. This gave us 4,794 pairs; the first ten
+  are shown in Table \ref{table:pairs}.
+\item We chose the same number of pairs at random from the remainder
+  of possible pairs to form non-positive examples
+\item For each term, we built a vector using dependency relations,
+  extracted using (parser?) from (corpus?).
+\item We constructed the dataset using the vector $u_2 - u_1$ where
+  $u_i$ is the vector obtained for term $t_i$, and where the class was
+  positive if the indirect hypernymy relation holds for the pair.
+\item Reduce the dimensionality using sparse random projections.
+\end{enumerate}
+
+\begin{table}
+\begin{center}
+\begin{minipage}{3cm}
+abandon trait\\
+abortion event\\
+abscess knowledge\\
+absurdity nonsense\\
+abyss object\\
+abyss location\\
+academy institution\\
+academy school\\
+academy group\\
+academy grouping\\
+\end{minipage}
+\end{center}
+\caption{The first ten entailment pairs obtained from WordNet.}
+\label{table:pairs}
+\end{table}
+
+\begin{table}
+\begin{center}
+\csvautotabular{datasets.csv}
+\end{center}
+\caption{Datasets from mldata.org used in our experiments, with number
+  of instances, features and classes in each dataset.}
+\end{table}

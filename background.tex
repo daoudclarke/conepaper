@@ -1,0 +1,61 @@
+\section{Background}
+
+\subsection{Entailment}
+
+There are at least three notions of entailment described in the
+literature. The oldest and best defined is logical entailment, which
+is (in general) a transitive and antisymmetric relation (i.e.~a
+preorder) on a formal language (that of the logic in question).
+
+Lexical entailment is that described by taxonomies, such as the IS-A
+or hypernymy relation in WordNet, for example, a \emph{cat} is an
+\emph{animal}. Like logical entailment, this relation is normally
+assumed to be a preorder, and often it is also assumed to be a partial
+order.
+
+Finally, textual entailment is a recent innovation intended to
+generalise several tasks in natural language processing, including
+document summarisation, information retrieval and machine
+translation. A sentence $T$ (the ``text'') is said to entail a
+sentence $H$ (the ``hypothesis'') if a reader will generally infer
+that $H$ is true given that $T$ is true. This is arguably a fuzzy
+relation since different readers will often disagree.
+
+\subsection{Distributional Entailment}
+
+\newcite{Weeds:04} proposed a notion of \textbf{distributional
+  generality}, that words with more general meanings will tend to
+occur in a wider range of contexts. \newcite{Clarke:07} formalised
+this idea using a partially ordered vector space.
+
+\begin{definition}[Partially ordered vector space]
+  A partially ordered vector space $V$ is a real vector space together
+  with a partial ordering $\le$ such that:
+  \vspace{0.1cm}\\
+  \indent if $x \le y$ then $x + z \le y + z$\\
+  \indent if $x \le y$ then $\alpha x \le \alpha y$
+  \vspace{0.1cm}\\
+  for all $x,y,z \in V$, and for all $\alpha \ge 0$. Such a partial
+  ordering is called a \textbf{vector space order} on $V$. An element
+  $u$ of $V$ satisfying $u \ge 0$ is called a \textbf{positive
+    element}; the set of all positive elements of $V$ is denoted
+  $V^+$. If $\le$ defines a lattice on $V$ then the space is called a
+  \textbf{vector lattice} or \textbf{Riesz space}.
+\end{definition}
+
+\begin{example}[Lattice operations on $\R^n$]
+  \label{example:finite}
+  A vector lattice captures many properties that are inherent in real
+  vector spaces when there is a \emph{distinguished basis}. In $\R^n$,
+  given a specific basis, we can write two vectors $u$ and $v$ as
+  sequences of numbers: $u = (u_1,u_2,\ldots u_n)$ and $v =
+  (v_1,v_2,\ldots v_n)$. This allows us to define the lattice
+  operations of meet $\land$ and join $\lor$ as
+\begin{eqnarray*}
+u\land v &=& (\min(u_1,v_1),\min(u_2,v_2),\ldots \min(u_n,v_n))\\
+u\lor v &=& (\max(u_1,v_1),\max(u_2,v_2),\ldots \max(u_n,v_n))
+\end{eqnarray*}
+These are the component-wise minimum and maximum, respectively. The partial
+ordering is then given by $u \le v$ if and only if $u \land v = u$, or
+equivalently $u_i \le v_i$ for all $i$.
+\end{example}
