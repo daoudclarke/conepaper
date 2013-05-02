@@ -13,12 +13,15 @@
 
 \usepackage{amsthm}
 \usepackage{amssymb}
+\usepackage{amsmath}
 
 \newtheorem{definition}{Definition}
 \newtheorem{proposition}{Proposition}
 \newtheorem{example}{Example}
 
 \newcommand{\R}{\mathbb{R}}
+
+\DeclareMathOperator*{\argmin}{\arg\!\min}
 
 \title{Experiments with Learning Cones}
 \date{\today}
@@ -90,10 +93,10 @@ relation since different readers will often disagree.
 
 \subsection{Distributional Entailment}
 
-\newcite{Weeds:04} proposed a notion of distributional generality, that
-words with more general meanings will tend to occur in a wider range
-of contexts. \newcite{Clarke:07} formalised this idea using a partially
-ordered vector space.
+\newcite{Weeds:04} proposed a notion of \textbf{distributional
+  generality}, that words with more general meanings will tend to
+occur in a wider range of contexts. \newcite{Clarke:07} formalised
+this idea using a partially ordered vector space.
 
 \begin{definition}[Partially ordered vector space]
   A partially ordered vector space $V$ is a real vector space together
@@ -158,8 +161,6 @@ for all $i$.
 
 \subsection{Learning Algorithm}
 
-In this section we describe our learning algorithm.
-
 \begin{algorithm}
 \caption{Cone Learning by Gradient Descent}\label{algorithm:cone}
 \begin{algorithmic}
@@ -175,13 +176,79 @@ In this section we describe our learning algorithm.
         \State \textbf{break}
       \EndIf
       \State $\alpha \gets \alpha/2$
+      \If{$\alpha < \alpha_t$}
+        \State \textbf{return} $M$
+      \EndIf
     \EndLoop
     \State $M \gets N$
     \State $\alpha \gets 1.2\alpha$
   \EndLoop
   \EndProcedure
+  \\
+  \Procedure{Gradient}{$V, \mathbf{c}, M$}
+  \State $A \gets MV$
+  \State $B \gets$ \Call{Project}{$A, \mathbf{c}$}
+  \State \textbf{return} $(A - B)V^T$
+  \EndProcedure
+  \\
+  \Procedure{Project}{$U, \mathbf{c}$}
+  \For{each column vector $\mathbf{u}_i$ in $U$}
+    \If{$c_i = 1$}
+      \State $\mathbf{u}_i \gets (\mathbf{u}_i)^+$
+    \Else
+      \State $m \gets \min(\mathbf{u}_i)$
+      \If{$m > -0.1$}
+        \State $j' \gets \argmin_j{(\mathbf{u}_i)_j}$
+        \State $(\mathbf{u}_i)_j \gets -0.1$
+      \EndIf
+    \EndIf
+  \EndFor
+  \State \textbf{return} $U$
+  \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+
+In this section we describe our learning algorithm (Algorithm
+\ref{algorithm:cone}). Our approach is inspired by that of
+\newcite{Hoyer:04}, who describes an approach for learning sparse
+non-negative matrix factorisations based on gradient descent. Although
+our goal and implementation is unique, we are able to adapt the
+gradient descent technique to our ends. Our algorithm is implemented
+in Python and is open sourced under the MIT license.\footnote{Location
+  withheld to preserve anonymity.}
+
+Let $\mathbf{v}$ be an instance vector and $c \in \{0,1\}$ the class value of
+the instance, where 0 indicates the instance is not positive, and 1
+indicates that it is positive. Our goal is to learn a matrix $M$ such
+that $M\mathbf{v} \ge 0$ if and only if $c = 1$, for as many instance vectors
+as possible.
+
+Let $V$ be the matrix whose columns are the instance vectors in the
+training data, and let $\mathbf{c}$ be the binary vector of
+corresponding class values.
+
+We also need to fix the parameter $d$, the dimensionality of the space
+describing the partial ordering. Then $M$ is a $d$ by $n$ matrix,
+where $n$ is the number of instance features, i.e.~the dimensionality
+of the instance vectors $\mathbf{v}$. We initialise this to a random
+matrix with values in $[-1,1]$, and then begin the loop in which the
+gradient descent occurs. The gradient $M'$ is computed by projecting
+$MV$ such the resulting matrix satisfies the goal of making all
+positive instances in the training data positive ($\mathbf{u}^+$ is
+the vectors with all negative components of $\mathbf{u}$ set to zero)
+and all non-positive instances are not positive. The gradient is then
+estimated by multiplying the difference between $MV$ and its
+projection with $V^T$.
+
+The parameter $\alpha$ is tuned using a heuristic from the
+implementation of \newcite{Hoyer:04}, and determines how far we move
+in the direction of the gradient in each loop. We initialise $\alpha$
+to $\alpha_0$ and stop when $\alpha$ is smaller than the threshold
+$\alpha_t$.
+
+\subsection{Avoiding Local Minima}
+
+\subsection{Handling Noise}
 
 \section{Experiments}
 
@@ -244,22 +311,28 @@ academy grouping\\
 
 \section{Results}
 
+% \begin{table*}
+% \begin{center}
+% \csvautotabular{results-all.csv}
+% \end{center}
+% \end{table*}
+
 \begin{table*}
 \begin{center}
-\csvautotabular{results-all.csv}
+\csvautotabular{wn-mi.csv}
 \end{center}
 \end{table*}
 
 
-% \begin{table*}
-% \begin{center}
-% \csvautotabular{toy.csv}
-% \end{center}
-% \caption{Accuracy results on toy data for each classifier. The first
-%   number in the dataset name indicates the dimensionality of the data,
-%   and the second the number of vectors generating the cone used
-%   to construct the data.}
-% \end{table*}
+\begin{table*}
+\begin{center}
+\csvautotabular{toy.csv}
+\end{center}
+\caption{Accuracy results on toy data for each classifier. The first
+  number in the dataset name indicates the dimensionality of the data,
+  and the second the number of vectors generating the cone used
+  to construct the data.}
+\end{table*}
 
 % \begin{table*}
 % \begin{center}

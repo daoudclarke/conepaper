@@ -1,0 +1,5 @@
+Dataset,SVM,Decision Tree,Cone
+wn-noun-dependencies-100,0.775 $\pm$ 0.003,0.717 $\pm$ 0.003,0.719 $\pm$ 0.023
+wn-noun-dependencies-10,0.667 $\pm$ 0.006,0.671 $\pm$ 0.006,0.643 $\pm$ 0.009
+wn-noun-dependencies-random-100,0.738 $\pm$ 0.002,0.676 $\pm$ 0.006,0.743 $\pm$ 0.001
+wn-noun-dependencies-random-10,0.581 $\pm$ 0.003,0.600 $\pm$ 0.004,0.583 $\pm$ 0.002
