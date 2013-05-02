@@ -112,4 +112,21 @@ $\alpha_t$.
 
 \subsection{Avoiding Local Minima}
 
+We found in our initial experiments, particularly with low-dimensional
+data, that the gradient descent algorithm gets stuck in local
+minima. To mitigate this, we do a few iterations of the gradient
+descent algorithm from a number of different initial matrices, and
+choose the one that works the best on the training data. We then do a
+gradient descent until convergence on this best performing matrix.
+
 \subsection{Handling Noisy Data}
+
+We also found in testing that the algorithm could not cope well with
+noisy data; in particular if a data point is marked as positive but is
+actually in the negation of the cone, this prevents the algorithm from
+finding the optimal solution. To get around this, we relaxed the
+projection algorithm so that it only affects those that are already
+closest to being correct. This effectively gives us automatic outlier
+detection, where the proportion of outliers that should not be
+adjusted in the projection is specified as a parameter.
+

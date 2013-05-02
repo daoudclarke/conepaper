@@ -3,21 +3,23 @@
 Distributional approaches to representing the semantics of natural language
 are an established and important component in the computational
 linguist's toolbox. In these approaches, words are typically
-represented as vectors, however we still lack a comprehensive theory
-of natural language meaning that is vector based.
+represented as vectors, leading to a variety of ways of measuring the semantic 
+similarity of two words based on these vectors~\cite{Lee:99}. 
 
-Part of the problem is arguably that we don't know how to relate
-distributional semantics to logical semantics. Recent work has looked
-at how vector based representations of meaning can be composed in a
-similar way to how fragments of logic are composed in Montague
-semantics.
+Despite the widespread use of distributional approaches, we still lack a comprehensive theory
+of natural language meaning that is vector based. While there are been recent work  
+looking at how vector based 
+representations of meaning can be composed in a
+similar way to how fragments of logic are composed in Montague 
+semantics~\cite{Clark:08,Grefenstette:11},  
+little attention has been paid to how 
+distributional semantics relates to logical semantics. 
 
-However there is another problem that has until now not received a lot
-of attention. Researchers in distributional semantics typically focus
+Researchers in distributional semantics typically focus
 on similarity, whilst logical semantics places an emphasis on
-equivalence, contradiction and entailment. Whilst similarity is
-sufficient for many tasks in natural language processing, tasks such
-as textual entailment recognition, summarisation and ontology learning
+equivalence, contradiction and entailment. Whilst semantic similarity can be
+relevant to many problems arising in natural language processing applications, 
+tasks such as textual entailment recognition, summarisation and ontology learning
 deal with entailment. Similarity measures are not sufficient to
 represent entailment: they are generally symmetric, whilst entailment
 is antisymmetric and transitive.

@@ -1,8 +1,17 @@
-\section{Experiments}
+\section{Datasets}
 
 \subsection{Toy Data}
 
-\subsection{MlData.org Datasets}
+We constructed artificial datasets by generating a random partial
+ordering $M$ for an $n$ dimensional space which maps to a $d$
+dimensional space. We then generate random data points and classify
+the points as positive or not using $M$.
+
+In high dimensions, random points are unlikely to be positive, so we
+generate an equal number of points that are guaranteed to be positive,
+by generating random positive points $\mathbf{u}$ in $d$ dimensions,
+then computing $M^{-1}u$, where $M^{-1}$ is the Moore-Penrose
+pseudo-inverse of $M$.
 
 \subsection{Hypernymy Detection}
 
@@ -23,7 +32,7 @@ with taxonomy information from WordNet.
 \item We chose the same number of pairs at random from the remainder
   of possible pairs to form non-positive examples
 \item For each term, we built a vector using dependency relations,
-  extracted using (parser?) from (corpus?).
+  extracted using (parser?) from the GigaWord corpus.
 \item We constructed the dataset using the vector $u_2 - u_1$ where
   $u_i$ is the vector obtained for term $t_i$, and where the class was
   positive if the indirect hypernymy relation holds for the pair.
@@ -32,7 +41,7 @@ with taxonomy information from WordNet.
 
 \begin{table}
 \begin{center}
-\begin{minipage}{3cm}
+\begin{minipage}{4cm}
 abandon trait\\
 abortion event\\
 abscess knowledge\\
@@ -49,10 +58,26 @@ academy grouping\\
 \label{table:pairs}
 \end{table}
 
-\begin{table}
-\begin{center}
-\csvautotabular{datasets.csv}
-\end{center}
-\caption{Datasets from mldata.org used in our experiments, with number
-  of instances, features and classes in each dataset.}
-\end{table}
+\section{Experiments}
+
+We used the following classifiers and parameter ranges:
+\begin{itemize}
+\item \textbf{SVM} (support vector machines): we used the linear
+  kernel and varied the cost parameter between $10^{-4}$ and $10^{3}$
+  in powers of 10.
+\item \textbf{decision tree}: we varied the depth from 1 to 3 and also
+  allowed no restriction on depth.
+\item \textbf{cone}: we varied the dimensionality from 1 to 5 in
+  increments of 1 and from 5 to 20 in increments of 5, and we allowed
+  outlier proportions of 0, 0.1 and 0.2. For the toy data, since the
+  dimensionality was known, we used the known dimensionality instead
+  of performing the parameter search.
+\end{itemize}
+We restricted SVMs to the linear kernel to provide a fair comparison
+against the cone learning algorithm, since we can also apply kernel
+techniques to cone learning. We leave the investigation of kernels to
+further work.
+
+We used five-fold cross validation to evaluate each classifier, and we
+performed parameter search on each fold using three-fold cross
+validation.
