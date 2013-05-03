@@ -1,2 +1,23 @@
 
 \section{Conclusion and Further Work}
+
+We have discussed the use of vector space orderings to describe
+entailment and shown how such an ordering can be described as a
+matrix. We have demonstrated that these orderings can be learnt from
+data, and described our algorithm for doing so.
+
+We evaluated our approach on both toy datasets and datasets
+constructed using the partial ordering of the WordNet taxonomy, and we
+showed that our algorithm is successfully able to learn this ordering.
+
+In future work, we hope to improve our algorithm further, in
+particular to improve its robustness with respect to local minima. We
+also plan to investigate the application of cone learning to textual
+entailment.
+
+One of the motivations for this work is the question of how to compose
+distributional representations of meaning. Our hope is that we can use
+the techniques described here to learn lattice orderings on vector
+space representations of strings of words that will allow them to be
+related to one another in way that more closely resembles the
+entailment of logical semantics.

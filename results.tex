@@ -9,12 +9,79 @@
   number in the dataset name indicates the dimensionality of the data,
   and the second the number of vectors generating the cone used
   to construct the data.}
+\label{table:toy}
 \end{table*}
 
 \begin{table*}
 \begin{center}
-\csvautotabular{wn-mi.csv}
+\csvautotabular{results-wn.csv}
 \end{center}
-\caption{Results for the datasets constructed using WordNet.}
+\caption{Accuracy results for the datasets constructed using WordNet.
+  The last number indicates the dimensionality of the
+  dataset after random projection. Three methods were used to construct the term vectors:
+  ``random'' datasets used random term vectors of the specified
+  dimensionality, ``raw'' datasets used the raw feature frequency and
+  ``mi'' datasets used pointwise mutual information, discarding
+  features with a negative value.}
+\label{table:wn}
 \end{table*}
 
+\begin{figure}
+\begin{center}
+\includegraphics[width=\linewidth]{dimensions.pdf}
+\end{center}
+\caption{Accuracy (y axis) of each dataset with the cone classifier as
+  the dimensionality (x axis) varies. This data is derived from the
+  nested cross validation performed for the parameter search.}
+\label{fig:dim}
+\end{figure}
+
+Table \ref{table:toy} shows results for the artificially constructed
+datasets for the three classifiers. Errors shown in all tables are
+estimates of error in the mean from the five folds in the
+cross-validation. It is clear that both decision trees and cones are
+able to learn the cone structure well in this idealised situation, and
+in general they outperform the linear SVMs.  As expected, linear SVMs
+are unable to learn the cone structure completely, since they are
+restricted to learning an half-space (although one that need not pass
+through the origin).
+
+We can see that our learning algorithm still needs perfecting; the
+poor performance on the two dimensional data is due to problems with
+gradient descent falling into local minima.
+
+Table \ref{table:wn} shows accuracy results for the WordNet
+datasets. Since the datasets are balanced, baseline accuracy is 0.5;
+all classifiers do significantly better than this. Although all
+datasets should have a cone structure, as they are constructed from
+the partial ordering of WordNet, we wanted to confirm that we can
+learn something about entailment from the context vectors
+themselves. To do this, we included a baseline in which the term
+vectors are generated at random, instead of being derived from corpus
+data. With 100 dimensions, this baseline is surprisingly hard to beat,
+with 73\% accuracy from both the SVM and cone classifiers. With term
+vectors constructed using raw frequency counts, no classifier improves
+on this baseline. Weighting and filtering the features using pointwise
+mutual information improves the situation, and both the support vector
+machine and cone algorithms outperform the random vector baseline.
+
+Figure \ref{fig:dim} shows the performance of the cone classifier on
+each dimension in the nested cross validation used for the parameter
+search. The best performing dataset peaks at three dimensions, showing
+that we are really making use of the ability to describe a cone. Other
+datasets perform best with only one dimension, meaning their
+expressivity is equivalent to an unbiased linear SVM, which learns a
+half-space whose plane passes through the origin. Poor performance at
+higher dimensions are likely due to limitations of our learning
+algorithm and the difficulty of learning higher-dimensional cones, and
+we hypothesise that this is the reason that the SVM outperforms the
+cone classifier.
+
+The cone classifier may be the most useful for some applications,
+since it gives us a partial ordering, whereas the orderings obtained
+from SVMs and decision trees are not guaranteed to have the properties
+of a partial ordering. For example, in ontology learning, the
+classifications have satisfy the requirements of the ontology; for
+cone classifiers these will be satisied automatically, whereas for
+other classifiers, some process would be needed to solve conflicts
+between the classifications and the ontology requirements.

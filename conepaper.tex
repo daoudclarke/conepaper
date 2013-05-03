@@ -4,6 +4,7 @@
 \usepackage{times}
 \usepackage{url}
 \usepackage{latexsym}
+\usepackage{subcaption}
 
 \usepackage{algorithm}
 \usepackage{algpseudocode}
@@ -42,7 +43,14 @@
 \maketitle
 
 \begin{abstract}
-
+  This paper concerns the question of how to capture the notion of
+  semantic entailment in a distributional semantics setting. We
+  present an approach that considers entailment to involve a partial
+  ordering on a vector space, and show how a partial ordering on
+  finite dimensional spaces can be expressed as a matrix. We give an
+  algorithm for learning such matrices, and therefore partial
+  orderings, from positive and negative examples, and apply the
+  algorithm to a number of datasets.
 \end{abstract}
 
 \input{introduction.tex}
