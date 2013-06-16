@@ -7,7 +7,7 @@ represented as vectors, leading to a variety of ways of measuring the semantic
 similarity of two words based on these vectors~\cite{Lee:99}. 
 
 Despite the widespread use of distributional approaches, we still lack a comprehensive theory
-of natural language meaning that is vector based. While there has been recent work  
+of natural language meaning that is vector based. While there are been recent work  
 looking at how vector based 
 representations of meaning can be composed in a
 similar way to how fragments of logic are composed in Montague 
@@ -24,45 +24,24 @@ deal with entailment. Similarity measures are not sufficient to
 represent entailment: they are generally symmetric, whilst entailment
 is antisymmetric and transitive.
 
-There has been interest in a number of rather different notions of
-entailment, including logical entailment, lexical entailment and
-textual entailment (further details are provided in
-Section~\ref{sec:background}). In order to be able to capture such
-diverse definitions of entailment, our goal has been to devise a
-method that is able to express entailment in a distributional
-semantics setting in a way that can capture these differing
-conceptions.
+There has been interest in number of rather different notions of entailment, including logical entailment, lexical entailment and textual entailment (further details are provided in Section~\ref{sec:background}). In order to be able to capture such diverse definitions of entailment, our goal has been to devise a method that is able to express these different conceptions of entailment in a  distributional semantics setting.
 
-Distributional generality~\cite{Weeds:04} provides a starting point, identifying one particular way that the distributional vectors associated with two words can be used to define an ordering on words. 
+Distributional generality~\cite{Weeds:04,Clarke:07} provides a starting point, identifying one particular way that the distributional vectors associated with two words can be used to define an ordering on words. This relationship is based on the extent to which one word's distributional contexts subsume those of another word.
 
-In this paper we generalise the notion of distributional generality based on the proposition of \newcite{Clarke:07} that
+In this paper, we generalise this notion of distributional generality based on the proposition of \newcite{Clarke:07} that
 entailment can be described by a partial ordering on the vector
 space. Whilst many vector spaces can be considered to be partially
 ordered vector spaces merely by the existence of a distinguished
 basis, in this paper we investigate the possibility of learning a new
 partial ordering directly from data. 
 
-Given two vectors $x$ and $y$, we can say that $x$ is less than or
-equal to $y$, $x\le y$, when the vector obtained by subtracting $y$
-from $x$, $x-y$, is ``positive''.  We can therefore formulate any
-given partial ordering (and thereby some particular notion of
-entailment) by specifying which of these difference vectors are to be
-considered ``positive'' for that particular partial ordering.
+Given two vectors $\mathbf{u}$ and $\mathbf{v}$, we can say that $\mathbf{u}$ is less than $\mathbf{v}$, $\mathbf{u}\le\mathbf{v}$, when the vector obtained by subtracting $\mathbf{v}$ from $\mathbf{u}$, $\mathbf{u}-\mathbf{v}$, is `positive'.  We can therefore formulate  any given partial ordering (and thereby some particular notion of entailment) by specifying which of these difference vectors are to be considered `positive' for that particular partial ordering. 
 
-A characterisation such as this can be captured with a matrix. This
-matrix can be defined in such a way that the result of taking its
-product with some vector $x-y$, the result (a vector) is positive if
-and only if all of its components are non-negative.  The $i$th row of
-the matrix corresponds to defines a half-space according to whether
-its dot product with a vector is positive or negative. The $i$th
-component of the resulting vector is positive when $x-y$ is contained
-in this half-space. Thus, the space containing all positive vectors is
-an intersection of half spaces, or more abstractly, a \textbf{cone}.
+A characterisation such as this can be captured with a matrix. Thismatrix can be defined in such a way that the result of taking itsproduct with some vector $\mathbf{u}-\mathbf{v}$, the result (a vector) is positive ifand only if all of its components are non-negative. ÊThe $i$th row ofthe matrix corresponds to defines a half-space according to whetherits dot product with a vector is positive or negative. The $i$thcomponent of the resulting vector is positive when $\mathbf{u}-\mathbf{v}$ is containedin this half-space. Thus, the space containing all positive vectors isan intersection of half spaces, or more abstractly, a \textbf{cone}.
 
-Given this way of formulating entailment via a partially ordered
-vector space, we are able to learn a particular entailment relation by
-learning one of these matrices. We describe an algorithm which does
-this and demonstrate its effectiveness on some simple datasets.
+
+Given this way of formulating entailment via a partially ordered vector space, we are able to learn a particular entailment relation by learning one of these matrices. We describe an algorithm which
+does this and demonstrate its effectiveness on some simple datasets.
 
 We also describe how this technique could potentially be applied to
 three different problems: recognising textual entailment, ontology

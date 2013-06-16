@@ -41,10 +41,10 @@ this idea using a partially ordered vector space.
 \begin{definition}[Partially ordered vector space]
   A partially ordered vector space $V$ is a real vector space together
   with a partial ordering $\le$ such that:\\[5pt]
-  \indent if $x \le y$ then $x + z \le y + z$\\[5pt]
-  \indent if $x \le y$ then $\alpha x \le \alpha y$
+  \indent if $\mathbf{u}\le\mathbf{v}$ then $\mathbf{u} + \mathbf{w} \le\mathbf{v} + \mathbf{w}$\\[5pt]
+  \indent if $\mathbf{u} \le\mathbf{v}$ then $\alpha \mathbf{u} \le \alpha \mathbf{v}$
   \vspace{0.1cm}\\[5pt]
-  for all $x,y,z \in V$, and for all $\alpha \ge 0$. 
+  for all $\mathbf{u},\mathbf{v},\mathbf{w} \in V$, and for all $\alpha \ge 0$. 
   
   Such a partial
   ordering is called a \textbf{vector space order} on $V$. An element
@@ -58,17 +58,17 @@ this idea using a partially ordered vector space.
   \label{example:finite}
   A vector lattice captures many properties that are inherent in real
   vector spaces when there is a \emph{distinguished basis}. In $\R^n$,
-  given a specific basis, we can write two vectors $u$ and $v$ as
-  sequences of numbers: $u = (u_1,u_2,\ldots u_n)$ and $v =
+  given a specific basis, we can write two vectors $\mathbf{u}$ and $\mathbf{v}$ as
+  sequences of numbers: $\mathbf{u} = (u_1,u_2,\ldots u_n)$ and $\mathbf{v} =
   (v_1,v_2,\ldots v_n)$. This allows us to define the lattice
   operations of meet $\land$ and join $\lor$ as
 \[\begin{array}{l}
-u\land v =\\
+\mathbf{u}\land \mathbf{v} =\\
 (\min(u_1,v_1),\min(u_2,v_2),\ldots \min(u_n,v_n))\\[5pt]
-u\lor v = \\
+\mathbf{u}\lor \mathbf{v} = \\
 (\max(u_1,v_1),\max(u_2,v_2),\ldots \max(u_n,v_n))
 \end{array}\]
 These are the component-wise minimum and maximum, respectively. The partial
-ordering is then given by $u \le v$ if and only if $u \land v = u$, or
+ordering is then given by $\mathbf{u} \le\mathbf{v}$ if and only if $\mathbf{u} \land \mathbf{v} = u$, or
 equivalently $u_i \le v_i$ for all $i$.
 \end{example}
