@@ -72,3 +72,20 @@ These are the component-wise minimum and maximum, respectively. The partial
 ordering is then given by $\mathbf{u} \le\mathbf{v}$ if and only if $\mathbf{u} \land \mathbf{v} = u$, or
 equivalently $u_i \le v_i$ for all $i$.
 \end{example}
+
+In computational linguistics, nearly all vector spaces under
+consideration have a basis, and thus have an implicit lattice ordering
+as defined above. This ordering is interpreted as a ``distributional
+entailment'' relation, so a term $x$ distributionally entails a term
+$y$ if $\hat{x} \le \hat{y}$, where $\hat{x}$ and $\hat{y}$ are the
+context vectors for terms $x$ and $y$. The hypothesis implicit in the
+work of \newcite{Clarke:07} is that there exist vector representations
+for terms and phrases such that distributional entailment correlates
+or coincides with other notions of entailment. In this paper we
+investigate this hypothesis with respect to lexical
+entailment. However, we also suggest that instead of considering the
+implicitly defined lattice ordering, it may be possible to learn a new
+ordering on the vector space by making distributional entailment
+coincide with other notions of entailment, using machine learning
+techniques.
+
