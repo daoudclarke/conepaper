@@ -3,38 +3,35 @@
 
 \begin{table*}
 \begin{center}
-\csvautotabular{toy.csv}
+\csvautotabular{approaches.csv}
 \end{center}
-\caption{Accuracy results on toy data for each classifier. The first
-  number in the dataset name indicates the dimensionality of the data,
-  and the second the number of vectors generating the cone used
-  to construct the data.}
+\caption{Accuracy on WordNet data for each method.}
 \label{table:toy}
 \end{table*}
 
-\begin{table*}
-\begin{center}
-\csvautotabular{results-wn.csv}
-\end{center}
-\caption{Accuracy results for the datasets constructed using WordNet.
-  The last number indicates the dimensionality of the
-  dataset after random projection. Three methods were used to construct the term vectors:
-  ``random'' datasets used random term vectors of the specified
-  dimensionality, ``raw'' datasets used the raw feature frequency and
-  ``mi'' datasets used pointwise mutual information, discarding
-  features with a negative value.}
-\label{table:wn}
-\end{table*}
+% \begin{table*}
+% \begin{center}
+% \csvautotabular{results-wn.csv}
+% \end{center}
+% \caption{Accuracy results for the datasets constructed using WordNet.
+%   The last number indicates the dimensionality of the
+%   dataset after random projection. Three methods were used to construct the term vectors:
+%   ``random'' datasets used random term vectors of the specified
+%   dimensionality, ``raw'' datasets used the raw feature frequency and
+%   ``mi'' datasets used pointwise mutual information, discarding
+%   features with a negative value.}
+% \label{table:wn}
+% \end{table*}
 
-\begin{figure}
-\begin{center}
-\includegraphics[width=\linewidth]{dimensions.pdf}
-\end{center}
-\caption{Accuracy (y axis) of each dataset with the cone classifier as
-  the dimensionality (x axis) varies. This data is derived from the
-  nested cross validation performed for the parameter search.}
-\label{fig:dim}
-\end{figure}
+% \begin{figure}
+% \begin{center}
+% \includegraphics[width=\linewidth]{dimensions.pdf}
+% \end{center}
+% \caption{Accuracy (y axis) of each dataset with the cone classifier as
+%   the dimensionality (x axis) varies. This data is derived from the
+%   nested cross validation performed for the parameter search.}
+% \label{fig:dim}
+% \end{figure}
 
 Table \ref{table:toy} shows results for the artificially constructed
 datasets for the three classifiers. Errors shown in all tables are
